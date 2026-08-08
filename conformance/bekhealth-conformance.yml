@@ -1,0 +1,139 @@
+generated: '2026-08-06'
+method: searched
+source: >-
+  https://www.bekhealth.com/frequently-asked-questions/ ,
+  https://auth.bekhealth.com/.well-known/openid-configuration ,
+  https://aws.amazon.com/marketplace/pp/prodview-kmhelvjo5koma
+description: >-
+  Cross-cutting standards and compliance posture BEKhealth states publicly. Two
+  kinds of evidence appear here: protocol conformance observed directly from the
+  Auth0 discovery document, and regulatory/compliance claims made in BEKhealth's
+  own public FAQ. Claims are recorded as claims — API Evangelist has not audited
+  them, and no third-party attestation report or trust center is published to
+  corroborate them.
+standards:
+- id: oidc
+  name: OpenID Connect Core 1.0
+  conforms: true
+  evidence:
+    type: discovery-document
+    url: https://auth.bekhealth.com/.well-known/openid-configuration
+    http_status: 200
+    note: >-
+      Issuer, authorization, token, userinfo and jwks endpoints published;
+      authorization_code + PKCE (S256) supported; RS256/PS256 ID token signing.
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749) + Authorization Server Metadata (RFC 8414)
+  conforms: true
+  evidence:
+    type: discovery-document
+    url: https://auth.bekhealth.com/.well-known/oauth-authorization-server
+    http_status: 200
+    note: >-
+      RFC 8414 metadata document served. Note that the tenant still advertises
+      the `implicit` and `password` grants, which RFC 9700 (OAuth 2.0 Security
+      Best Current Practice) says MUST NOT be used.
+- id: oauth2-pkce
+  name: PKCE (RFC 7636)
+  conforms: true
+  evidence:
+    type: discovery-document
+    url: https://auth.bekhealth.com/.well-known/openid-configuration
+    note: 'code_challenge_methods_supported includes S256 (and, weakly, plain).'
+- id: hipaa
+  name: HIPAA Privacy and Security Rules (45 CFR Parts 160, 164)
+  conforms: claimed
+  evidence:
+    type: public-statement
+    url: https://www.bekhealth.com/frequently-asked-questions/
+    http_status: 200
+    quote: >-
+      "BEKhealth enforces HIPAA compliance through purpose-driven data
+      extraction, expert-determined de-identification, site-level data
+      segregation, enterprise-grade encryption, and role-based access controls."
+    note: >-
+      Self-attested on the company FAQ. No third-party attestation, audit report
+      or trust center is published.
+- id: hipaa-expert-determination
+  name: HIPAA de-identification by expert determination (45 CFR 164.514(b)(1))
+  conforms: claimed
+  evidence:
+    type: public-statement
+    url: https://www.bekhealth.com/frequently-asked-questions/
+    quote: >-
+      "Data is de-identified using expert determination methodologies that
+      remove direct identifiers and reduce re-identification risk while
+      preserving clinical utility for research."
+- id: baa-dua
+  name: Business Associate Agreements / Data Use Agreements
+  conforms: claimed
+  evidence:
+    type: public-statement
+    url: https://www.bekhealth.com/frequently-asked-questions/
+    quote: >-
+      "BEKhealth embeds compliance into system design through HIPAA-aligned
+      architecture, data governance controls, audit trails, access management,
+      and structured onboarding processes with BAAs and DUAs."
+- id: soc2
+  name: SOC 2
+  conforms: false
+  evidence:
+    type: not-published
+    note: >-
+      No SOC 2 claim, report or trust center found on any BEKhealth host;
+      trust.bekhealth.com and /security, /trust, /compliance all miss.
+- id: iso27001
+  name: ISO/IEC 27001
+  conforms: false
+  evidence:
+    type: not-published
+    note: No ISO 27001 claim found on any public BEKhealth page.
+- id: hitrust
+  name: HITRUST CSF
+  conforms: false
+  evidence:
+    type: not-published
+    note: No HITRUST claim found on any public BEKhealth page.
+- id: fhir
+  name: HL7 FHIR
+  conforms: unknown
+  evidence:
+    type: not-published
+    note: >-
+      BEKhealth markets "25+ proprietary EHR Adapters" covering ~80% of the EHR
+      market but names no interoperability standard — no FHIR, HL7 v2, CDA,
+      USCDI, SMART on FHIR or TEFCA reference appears anywhere on the public
+      site. The connector layer is described only as proprietary.
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: unknown
+  evidence:
+    type: no-spec
+    note: No public API contract exists to evaluate an error format against.
+compliance_program:
+  published: true
+  surface: https://www.bekhealth.com/frequently-asked-questions/
+  contact: compliance@bekhealth.com
+  contact_source: https://aws.amazon.com/marketplace/pp/prodview-kmhelvjo5koma
+  certifications_named: []
+  attestations_available: false
+  trust_center: false
+  note: >-
+    BEKhealth publishes a substantive compliance narrative and a dedicated
+    compliance@ contact, but names no certification and offers no trust center
+    or document request flow.
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://www.bekhealth.com/frequently-asked-questions/
+    http_status: 200
+  - url: https://auth.bekhealth.com/.well-known/openid-configuration
+    http_status: 200
+  - url: https://auth.bekhealth.com/.well-known/oauth-authorization-server
+    http_status: 200
+  - url: https://www.bekhealth.com/security/
+    http_status: 404
+  - url: https://www.bekhealth.com/trust/
+    http_status: 404
+  - url: https://www.bekhealth.com/compliance/
+    http_status: 404

@@ -1,0 +1,77 @@
+generated: '2026-08-06'
+method: probed
+source: https://auth.bekhealth.com/.well-known/openid-configuration
+description: >-
+  The only OAuth scopes BEKhealth publishes anonymously are the standard OpenID
+  Connect scopes and claim-scopes advertised by its Auth0 issuer's discovery
+  document. These govern identity for the customer application and the gated
+  documentation portal. BEKhealth advertises NO product or API scopes — no
+  resource-server audience is published, and there is no public scopes or
+  permissions reference page to search. Everything below is taken verbatim from
+  `scopes_supported`; nothing has been inferred or invented.
+issuer: https://auth.bekhealth.com/
+docs: null
+docs_note: No public scopes / permissions reference page exists on any BEKhealth host.
+scope_source: openid-configuration.scopes_supported
+scopes:
+- name: openid
+  standard: OpenID Connect Core 1.0
+  description: Requests an ID Token; required for any OIDC authentication request.
+- name: profile
+  standard: OpenID Connect Core 1.0
+  description: Requests the default profile claims (name, family_name, given_name, nickname, picture).
+- name: offline_access
+  standard: OpenID Connect Core 1.0
+  description: Requests a refresh token so the client can renew access without user interaction.
+- name: email
+  standard: OpenID Connect Core 1.0
+  description: Requests the email claim.
+- name: email_verified
+  standard: Auth0 claim scope
+  description: Requests the email_verified claim.
+- name: name
+  standard: Auth0 claim scope
+  description: Requests the name claim.
+- name: given_name
+  standard: Auth0 claim scope
+  description: Requests the given_name claim.
+- name: family_name
+  standard: Auth0 claim scope
+  description: Requests the family_name claim.
+- name: nickname
+  standard: Auth0 claim scope
+  description: Requests the nickname claim.
+- name: picture
+  standard: Auth0 claim scope
+  description: Requests the picture claim.
+- name: created_at
+  standard: Auth0 claim scope
+  description: Requests the created_at claim (account creation timestamp).
+- name: identities
+  standard: Auth0 claim scope
+  description: Requests the identities claim (linked identity-provider accounts).
+- name: phone
+  standard: OpenID Connect Core 1.0
+  description: Requests the phone_number claim.
+- name: address
+  standard: OpenID Connect Core 1.0
+  description: Requests the address claim.
+observed_in_use:
+- scope: openid
+  where: docs.bekhealth.com login redirect
+- scope: email
+  where: docs.bekhealth.com login redirect
+coverage:
+  identity_scopes: 14
+  api_scopes: 0
+  note: >-
+    Zero API/product scopes are published. An integrator cannot determine from
+    any public artifact what a BEKhealth access token would be authorized to do.
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://auth.bekhealth.com/.well-known/openid-configuration
+    http_status: 200
+  - url: https://docs.bekhealth.com/
+    http_status: 302
+    note: 'redirect carries scope=openid%20email'

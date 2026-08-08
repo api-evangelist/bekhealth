@@ -1,0 +1,98 @@
+generated: '2026-08-06'
+method: probed
+source: https://auth.bekhealth.com/.well-known/openid-configuration
+description: >-
+  BEKhealth publishes no public API and no public authentication documentation.
+  What it does expose anonymously is the OpenID Connect discovery document for
+  its Auth0 custom-domain issuer at auth.bekhealth.com, which is the identity
+  provider guarding both the customer application and the documentation portal
+  at docs.bekhealth.com. This profile is derived entirely from that discovery
+  document — it describes how BEKhealth authenticates users of its platform, not
+  a published API authentication model, because no API contract is public.
+issuer: https://auth.bekhealth.com/
+provider: Auth0 (custom domain)
+schemes:
+- key: openIdConnect
+  type: openIdConnect
+  openIdConnectUrl: https://auth.bekhealth.com/.well-known/openid-configuration
+  description: >-
+    OpenID Connect 1.0 discovery published by the Auth0 tenant. Authorization
+    Code with PKCE (S256) is supported, alongside client credentials, refresh
+    token, device code, token exchange and JWT bearer grants.
+  endpoints:
+    authorization: https://auth.bekhealth.com/authorize
+    token: https://auth.bekhealth.com/oauth/token
+    userinfo: https://auth.bekhealth.com/userinfo
+    jwks: https://auth.bekhealth.com/.well-known/jwks.json
+    revocation: https://auth.bekhealth.com/oauth/revoke
+    device_authorization: https://auth.bekhealth.com/oauth/device/code
+    dynamic_registration: https://auth.bekhealth.com/oidc/register
+    mfa_challenge: https://auth.bekhealth.com/mfa/challenge
+- key: oauth2
+  type: oauth2
+  description: >-
+    OAuth 2.0 authorization-server metadata is served at
+    /.well-known/oauth-authorization-server and is byte-identical in substance
+    to the OIDC discovery document (the Auth0 default). Machine-to-machine
+    access would use the client_credentials grant against the same token
+    endpoint, but no resource server, audience or API scope is published.
+  flows:
+    authorizationCode:
+      authorizationUrl: https://auth.bekhealth.com/authorize
+      tokenUrl: https://auth.bekhealth.com/oauth/token
+      refreshUrl: https://auth.bekhealth.com/oauth/token
+    clientCredentials:
+      tokenUrl: https://auth.bekhealth.com/oauth/token
+grant_types_supported:
+- client_credentials
+- authorization_code
+- refresh_token
+- password
+- implicit
+- urn:ietf:params:oauth:grant-type:device_code
+- urn:ietf:params:oauth:grant-type:token-exchange
+- urn:ietf:params:oauth:grant-type:jwt-bearer
+- http://auth0.com/oauth/grant-type/password-realm
+- http://auth0.com/oauth/grant-type/passwordless/otp
+- http://auth0.com/oauth/grant-type/mfa-oob
+- http://auth0.com/oauth/grant-type/mfa-otp
+- http://auth0.com/oauth/grant-type/mfa-recovery-code
+token_endpoint_auth_methods_supported:
+- client_secret_basic
+- client_secret_post
+- private_key_jwt
+- none
+code_challenge_methods_supported:
+- S256
+- plain
+id_token_signing_alg_values_supported:
+- HS256
+- RS256
+- PS256
+mfa:
+  supported: true
+  evidence: >-
+    mfa_challenge_endpoint plus the mfa-oob / mfa-otp / mfa-recovery-code Auth0
+    grant types are advertised in the discovery document.
+backchannel_logout_supported: true
+request_parameter_supported: false
+gaps:
+- No API-level authentication documentation is published; docs.bekhealth.com
+  302s to this same issuer for every path.
+- No resource-server audience or API-specific scope is advertised, so the
+  discovery document cannot tell an integrator how to obtain a token for a
+  BEKhealth API.
+- The `implicit` and `password` grants remain enabled on the tenant, both
+  discouraged by OAuth 2.1 / RFC 9700 (BCP for OAuth 2.0 Security).
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://auth.bekhealth.com/.well-known/openid-configuration
+    http_status: 200
+    content_type: application/json; charset=utf-8
+  - url: https://auth.bekhealth.com/.well-known/oauth-authorization-server
+    http_status: 200
+    content_type: application/json; charset=utf-8
+  - url: https://docs.bekhealth.com/
+    http_status: 302
+    location: https://auth.bekhealth.com/authorize?client_id=...&response_type=code&scope=openid%20email

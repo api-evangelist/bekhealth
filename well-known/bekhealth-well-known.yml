@@ -1,0 +1,73 @@
+generated: '2026-08-06'
+method: probed
+source: live probes of /.well-known/* on every BEKhealth host
+description: >-
+  Index of the /.well-known/ paths probed across BEKhealth hosts. The only
+  well-known documents BEKhealth serves anonymously are the OpenID Connect and
+  OAuth 2.0 authorization-server metadata published by its Auth0 custom-domain
+  issuer at auth.bekhealth.com. The marketing site (www.bekhealth.com) serves no
+  well-known documents at all, and the documentation host (docs.bekhealth.com)
+  redirects every path — including /.well-known/* — into the Auth0 login.
+hosts:
+- host: auth.bekhealth.com
+  role: OpenID Connect / OAuth 2.0 issuer (Auth0 custom domain)
+  paths:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: bekhealth-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: bekhealth-oauth-authorization-server.json
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    file: null
+    note: JSON Web Key Set; signing keys rotate, so it is indexed but not snapshotted.
+- host: www.bekhealth.com
+  role: marketing site (WordPress)
+  paths:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    file: ../llms/bekhealth-llms.txt
+- host: bekhealth.com
+  role: apex redirect
+  paths:
+  - path: /.well-known/security.txt
+    status: 404
+- host: docs.bekhealth.com
+  role: documentation portal (CloudFront)
+  paths:
+  - path: /.well-known/agent-card.json
+    status: 302
+    location: https://auth.bekhealth.com/authorize?...
+  - path: /.well-known/agent.json
+    status: 302
+    location: https://auth.bekhealth.com/authorize?...
+  note: >-
+    Every path on this host — root, /openapi.json, /llms.txt, /.well-known/* —
+    returns a 302 to the Auth0 authorize endpoint. Nothing on this host is
+    readable anonymously.
+findings:
+  security_txt: absent
+  api_catalog: absent
+  ai_plugin: absent
+  agent_card: absent
+  openid_configuration: present
+  oauth_authorization_server: present
