@@ -19,7 +19,7 @@ image: https://www.bekhealth.com/wp-content/uploads/2025/02/BEKhealth_Logo-1.web
 url: https://raw.githubusercontent.com/api-evangelist/bekhealth/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-08-06'
 modified: '2026-08-06'
 tags:
