@@ -15,6 +15,17 @@ description: 'BEKhealth is a clinical research technology company whose BEKplatf
   auth.bekhealth.com, but publishes no public developer portal, API reference or
   machine-readable specification; the documented route to the platform is a demo
   request and a contracted onboarding with BAAs and DUAs.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.bekhealth.com/wp-content/uploads/2025/02/BEKhealth_Logo-1.webp
 url: https://raw.githubusercontent.com/api-evangelist/bekhealth/refs/heads/main/apis.yml
 x-type: company
