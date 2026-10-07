@@ -1,0 +1,22 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://www.bekhealth.com/pricing-roi/
+sources:
+- https://www.bekhealth.com/pricing-roi/
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: negotiated
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-07'
+published: false
+note: No numeric price is published on the pricing page; Pricing & ROI page offers an ROI calculator but
+  no published prices; page states RWD engagements are scoped and 'we don't publish standard pricing',
+  directing users to contact the team. Only illustrative figures (e.g. 5.9x ROI example) appear, not prices.
+plan_count: 0
+plans: []
